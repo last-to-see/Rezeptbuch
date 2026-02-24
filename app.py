@@ -53,8 +53,8 @@ login_manager.init_app(app)
 # SINGLE USER
 # -----------------------
 
-USERNAME = os.environ.get("APP_USERNAME", "admin")
-PASSWORD = os.environ.get("APP_PASSWORD", "admin123")
+USERNAME = os.environ.get("APP_USERNAME", "mama")
+PASSWORD = os.environ.get("APP_PASSWORD", "secret")
 
 
 class SingleUser(UserMixin):
@@ -305,5 +305,6 @@ def delete_folder(folder_id):
 # -----------------------
 
 if __name__ == "__main__":
+
 
     app.run(host="0.0.0.0", port=5000)
