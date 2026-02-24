@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="page-title">Carpetas</h2>
+
+<div class="card">
+
+<form method="POST">
+
+<input name="name"
+       placeholder="Nueva carpeta"
+       required>
+
+<button class="btn">
+Crear
+</button>
+
+</form>
+
+</div>
+
+<br>
+
+<ul class="folder-list">
+
+{% for f in folders %}
+
+<li>
+
+<span>{{ f.name }}</span>
+
+<a class="btn btn-danger"
+   href="/folder/delete/{{ f.id }}"
+   onclick="return confirm('Borrar carpeta?');">
+Borrar
+</a>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% endblock %}

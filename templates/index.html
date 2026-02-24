@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="page-title">
+
+{% if active_folder %}
+    {{ active_folder.name }}
+{% else %}
+    Choose a Folder
+{% endif %}
+
+</h2>
+
+
+<!-- FOLDERS -->
+
+<div style="text-align:center; margin-bottom:30px;">
+
+{% for f in folders %}
+
+    <a class="btn"
+       href="/folder/{{ f.id }}"
+       style="margin:5px;">
+
+        {{ f.name }}
+
+    </a>
+
+{% endfor %}
+
+</div>
+
+
+{% if not active_folder %}
+
+<p style="text-align:center;">
+    Select a folder to see recipes.
+</p>
+
+{% endif %}
+
+
+{% if active_folder and recipes|length == 0 %}
+
+<p style="text-align:center;">
+    No recipes in this folder.
+</p>
+
+{% endif %}
+
+
+{% if active_folder %}
+
+{% for r in recipes %}
+
+<div class="card">
+
+    <h3>{{ r.title }}</h3>
+
+    {% if r.image %}
+        <img src="{{ url_for('static', filename='uploads/' + r.image) }}">
+    {% endif %}
+
+    <h4>Ingredientes</h4>
+    <p>{{ r.ingredients }}</p>
+
+    <h4>Instrucciones</h4>
+    <p>{{ r.instructions }}</p>
+
+
+    {% if current_user.is_authenticated %}
+
+    <br>
+
+    <a class="btn"
+       href="/recipe/edit/{{ r.id }}">
+       Editar
+    </a>
+
+    <a class="btn btn-danger"
+       href="/recipe/delete/{{ r.id }}">
+       Borrar
+    </a>
+
+    {% endif %}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f3f4f6;
+    color: #222;
+    font-size: 16px;
+}
+
+/* NAVBAR */
+
+nav {
+    background: #1f2933;
+    padding: 18px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h1 {
+    color: white;
+}
+
+nav .links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 500;
+}
+
+/* CONTAINER */
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* TITLE */
+
+.page-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* CARD */
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 25px;
+
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* BUTTON */
+
+.btn {
+    background: #2563eb;
+    color: white;
+
+    padding: 8px 16px;
+    border-radius: 6px;
+
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-danger {
+    background: #dc2626;
+}
+
+/* FORMS */
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+
+    margin-bottom: 15px;
+
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* LOGIN */
+
+.login-box {
+    max-width: 420px;
+    margin: 100px auto;
+
+    background: white;
+    padding: 30px;
+
+    border-radius: 12px;
+    text-align: center;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.flash {
+    color: red;
+}
+
+/* FOLDERS */
+
+.folder-list li {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+
+    border-radius: 6px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

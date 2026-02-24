@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="page-title">Recetas</h2>
+
+<div class="card">
+
+<form method="POST"
+      enctype="multipart/form-data">
+
+<input name="title"
+       placeholder="Titulo"
+       value="{{ recipe.title if recipe else '' }}"
+       required>
+
+<textarea name="ingredients"
+          placeholder="Ingredientes"
+          required>{{ recipe.ingredients if recipe else '' }}</textarea>
+
+<textarea name="instructions"
+          placeholder="Instrucciones"
+          required>{{ recipe.instructions if recipe else '' }}</textarea>
+
+<select name="folder">
+
+{% for f in folders %}
+
+<option value="{{ f.id }}"
+{% if recipe and recipe.folder_id == f.id %}
+selected
+{% endif %}
+>
+{{ f.name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<input type="file" name="image">
+
+<button class="btn">
+Guardar
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}
