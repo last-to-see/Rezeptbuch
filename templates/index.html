@@ -7,7 +7,7 @@
 {% if active_folder %}
     {{ active_folder.name }}
 {% else %}
-    Choose a Folder
+    Selecciona una carpeta
 {% endif %}
 
 </h2>
@@ -35,7 +35,7 @@
 {% if not active_folder %}
 
 <p style="text-align:center;">
-    Select a folder to see recipes.
+    Selecciona una carpeta para ver receta :)
 </p>
 
 {% endif %}
@@ -44,7 +44,7 @@
 {% if active_folder and recipes|length == 0 %}
 
 <p style="text-align:center;">
-    No recipes in this folder.
+    No hay recetas en esta carpeta
 </p>
 
 {% endif %}
@@ -90,5 +90,6 @@
 {% endfor %}
 
 {% endif %}
+
 
 {% endblock %}
