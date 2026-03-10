@@ -108,7 +108,7 @@ with app.app_context():
 @app.route("/")
 def index():
 
-    folders = Folder.query.all()
+    folders = Folder.query.order_by(Folder.name).all()
 
     return render_template(
         "index.html",
@@ -125,9 +125,9 @@ def view_folder(folder_id):
 
     recipes = Recipe.query.filter_by(
         folder_id=folder_id
-    ).all()
+    ).order_by(Recipe.title).all()
 
-    folders = Folder.query.all()
+    folders = Folder.query.order_by(Folder.name).all()
 
     return render_template(
         "index.html",
@@ -273,7 +273,7 @@ def folders():
         db.session.add(folder)
         db.session.commit()
 
-    folders = Folder.query.all()
+    folders = Folder.query.order_by(Folder.name).all()
 
     return render_template(
         "folders.html",
