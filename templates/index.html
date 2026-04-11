@@ -12,84 +12,53 @@
 
 </h2>
 
-
 <!-- FOLDERS -->
 
 <div style="text-align:center; margin-bottom:30px;">
 
 {% for f in folders %}
-
-    <a class="btn"
-       href="/folder/{{ f.id }}"
-       style="margin:5px;">
-
+    <a class="btn" href="/folder/{{ f.id }}" style="margin:5px;">
         {{ f.name }}
-
     </a>
-
 {% endfor %}
 
 </div>
 
-
 {% if not active_folder %}
-
 <p style="text-align:center;">
     Selecciona una carpeta para ver receta :)
 </p>
-
 {% endif %}
 
-
 {% if active_folder and recipes|length == 0 %}
-
 <p style="text-align:center;">
     No hay recetas en esta carpeta
 </p>
-
 {% endif %}
-
 
 {% if active_folder %}
 
+<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">
+
 {% for r in recipes %}
 
-<div class="card">
+<div style="text-align:center; width:200px;">
 
-    <h3>{{ r.title }}</h3>
-
-    {% if r.image %}
-        <img src="{{ url_for('static', filename='uploads/' + r.image) }}">
-    {% endif %}
-
-    <h4>Ingredientes</h4>
-    <p>{{ r.ingredients }}</p>
-
-    <h4>Instrucciones</h4>
-    <p>{{ r.instructions }}</p>
-
-
-    {% if current_user.is_authenticated %}
-
-    <br>
-
-    <a class="btn"
-       href="/recipe/edit/{{ r.id }}">
-       Editar
+    <a href="/recipe/{{ r.id }}">
+        <img src="{% if r.image %}{{ url_for('static', filename='uploads/' + r.image) }}{% else %}{{url_for('static',filename='no-image.png')}}{% endif %}"
+             style="width:200px; height:200px; object-fit:cover; border-radius:10px;">
     </a>
 
-    <a class="btn btn-danger"
-       href="/recipe/delete/{{ r.id }}">
-       Borrar
-    </a>
-
-    {% endif %}
+    <p style="margin-top:8px; font-weight:bold;">
+        {{ r.title }}
+    </p>
 
 </div>
 
 {% endfor %}
 
-{% endif %}
+</div>
 
+{% endif %}
 
 {% endblock %}
