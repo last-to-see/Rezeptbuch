@@ -231,10 +231,23 @@ def edit_recipe(id):
         recipe.title = request.form["title"]
         recipe.ingredients = request.form["ingredients"]
         recipe.instructions = request.form["instructions"]
-        recipe.folder_id = request.form["folder"]
+        recipe.folder_id = int(request.form["folder"])
 
+        
+        file = request.files.get("image")
+
+        if file and file.filename:
+            unique = str(uuid.uuid4()) + "_" + secure_filename(file.filename)
+
+            file.save(
+                os.path.join(
+                    app.config["UPLOAD_FOLDER"],
+                    unique
+                )
+            )
+
+            recipe.image = unique
         db.session.commit()
-
         return redirect("/folder/" + str(recipe.folder_id))
 
     return render_template(
@@ -254,6 +267,16 @@ def delete_recipe(id):
     db.session.commit()
 
     return redirect("/")
+
+@app.route("/recipe/<int:id>")
+def view_recipe(id):
+
+    recipe = Recipe.query.get_or_404(id)
+
+    return render_template(
+        "recipe_view.html",
+        recipe=recipe
+    )
 
 
 # -----------------------
