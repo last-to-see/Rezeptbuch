@@ -5,7 +5,34 @@
 <div class="card">
 
     <h2>{{ recipe.title }}</h2>
+    <p style="font-weight:bold;">
 
+    {% if recipe.cooking_time %}
+        ⏱ {{ recipe.cooking_time }}
+    {% endif %}
+
+    {% if recipe.portions %}
+        &nbsp; 👨‍👩‍👧 {{ recipe.portions }}
+    {% endif %}
+
+    {% if recipe.difficulty %}
+
+        &nbsp;
+
+        {% if recipe.difficulty == 'Easy' %}
+            <span style="color:green;">Fácil</span>
+
+        {% elif recipe.difficulty == 'Medium' %}
+            <span style="color:orange;">Mediano</span>
+
+        {% else %}
+            <span style="color:red;">Difícil</span>
+
+        {% endif %}
+
+    {% endif %}
+
+</p>
     {% if recipe.image %}
         <img src="{{ url_for('static', filename='uploads/' + recipe.image) }}">
     {% endif %}
@@ -26,6 +53,14 @@
 
     {% if current_user.is_authenticated %}
         <br>
+        <a class="btn" href="/recipe/favorite/{{ recipe.id }}">
+            {% if recipe.favorite %}
+               ❤️ Quitar de Favoritos
+            {% else %}
+                🤍 Añadir a Favoritos
+            {% endif %}
+        </a>
+        <br><br>
         <a 
             class="btn" href="/recipe/edit/{{ recipe.id }}">Editar
         </a>
