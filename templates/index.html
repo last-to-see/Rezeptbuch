@@ -6,6 +6,12 @@
 
 {% if active_folder %}
     {{ active_folder.name }}
+    <form method="GET" style="text-align:center; margin-bottom: 20px;">
+        <input type="text" name="search" placeholder="Buscar receta..."
+                value="{{ request.args.get('search', '') }}"
+                style="padding: 8px; width: 200px;">
+        <button class="btn">Buscar</button>
+    </form>
 {% else %}
     Selecciona una carpeta
 {% endif %}
@@ -21,6 +27,12 @@
         {{ f.name }}
     </a>
 {% endfor %}
+
+{% if has_favorites %}
+    <a class="btn" href="/favorites" style="margin:5px;">
+       ❤️ Favoritos 
+    </a>
+{% endif %}
 
 </div>
 
