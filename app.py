@@ -92,6 +92,12 @@ class Recipe(db.Model):
 
     folder_id = db.Column(db.Integer, nullable=True)
 
+    favorite = db.Column(db.Boolean, default=False)
+
+    cooking_time = db.Column(db.String(50), nullable=True)
+    portions = db.Column(db.String(50), nullable=True)
+    difficulty = db.Column(db.String(50), nullable=True)
+
 
 # -----------------------
 # INIT DB
@@ -110,11 +116,14 @@ def index():
 
     folders = Folder.query.order_by(Folder.name).all()
 
+    has_favorites = Recipe.query.filter_by(favorite = True).first()
+
     return render_template(
         "index.html",
         folders=folders,
         recipes=[],
-        active_folder=None
+        active_folder=None,
+        has_favorites = has_favorites
     )
 
 
@@ -123,18 +132,62 @@ def view_folder(folder_id):
 
     folder = Folder.query.get_or_404(folder_id)
 
-    recipes = Recipe.query.filter_by(
-        folder_id=folder_id
-    ).order_by(Recipe.title).all()
+    search = request.args.get("search", "")
+
+    query = Recipe.query.filter_by(folder_id=folder_id)
+
+    if search:
+        query = query.filter(Recipe.title.ilike(f"%{search}%"))
+
+    recipes = query.order_by(Recipe.title).all()
 
     folders = Folder.query.order_by(Folder.name).all()
+
+    has_favorites = Recipe.query.filter_by(favorite = True).first()
 
     return render_template(
         "index.html",
         folders=folders,
         recipes=recipes,
-        active_folder=folder
+        active_folder=folder,
+        has_favorites=has_favorites
     )
+
+@app.route("/favorites")
+def favorites():
+    search = request.args.get("search", "")
+
+    query = Recipe.query.filter_by(favorite=True)
+
+    if search:
+        query = query.filter(Recipe.title.ilike(f"%{search}%"))
+
+    recipes = query.order_by(Recipe.title).all()
+
+    folders = Folder.query.order_by(Folder.name).all()
+
+    has_favorites = Recipe.query.filter_by(favorite=True).first()
+
+    return render_template(
+        "index.html",
+        folders=folders,
+        recipes=recipes,
+        active_folder={"name": "Favoritos"},
+        has_favorites=has_favorites
+    )
+
+@app.route("/recipe/favorite/<int:id>")
+@login_required
+def toggle_favorite(id):
+
+    recipe = Recipe.query.get_or_404(id)
+
+    recipe.favorite = not recipe.favorite
+
+    db.session.commit()
+
+    return redirect(request.referrer or "/")
+
 
 
 # -----------------------
@@ -203,7 +256,10 @@ def new_recipe():
             ingredients=request.form["ingredients"],
             instructions=request.form["instructions"],
             folder_id=request.form["folder"],
-            image=filename
+            image=filename,
+            cooking_time=request.form.get("cooking_time"),
+            portions=request.form.get("portions"),
+            difficulty=request.form.get("difficulty")
         )
 
         db.session.add(recipe)
@@ -232,6 +288,9 @@ def edit_recipe(id):
         recipe.ingredients = request.form["ingredients"]
         recipe.instructions = request.form["instructions"]
         recipe.folder_id = int(request.form["folder"])
+        recipe.cooking_time = request.form.get("cooking_time")
+        recipe.portions = request.form.get("portions")
+        recipe.difficulty = request.form.get("difficulty")
 
         
         file = request.files.get("image")
@@ -331,3 +390,4 @@ if __name__ == "__main__":
 
 
     app.run(host="0.0.0.0", port=5000)
+
