@@ -14,6 +14,29 @@
        value="{{ recipe.title if recipe else '' }}"
        required>
 
+<label>¿Qué tardo en cocinar?</label>
+<input type="text"
+      name = "cooking_time"
+      value = "{{ recipe.cooking_time if recipe else '' }}">
+
+<label>Porciones</label>
+<input type="text"
+      name="portions"
+      value="{{ recipe.portions if recipe else '' }}">
+
+<label>Dificultad</label>
+<select name="difficulty">
+
+      <option value="Easy"
+      {% if recipe and recipe.difficulty == 'Easy' %} selected{% endif %}>Fácil</option>
+
+      <option value="Medium"
+      {% if recipe and recipe.difficulty == 'Medium' %} selected {% endif %}>Mediano</option>
+
+      <option value="Hard"
+      {% if recipe and recipe.difficulty == 'Hard' %} selected {% endif %}>Difícil</option>
+</select>
+
 <textarea name="ingredients"
           placeholder="Ingredientes"
           required>{{ recipe.ingredients if recipe else '' }}</textarea>
